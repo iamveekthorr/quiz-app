@@ -7,6 +7,9 @@ import mongoSanitizer from 'express-mongo-sanitize';
 import xxs from 'xss-clean';
 import AppError from './utils/appError';
 
+
+import userRouter from './routes/userRoutes'
+
 const app: Application = express();
 
 app.use(cors());
@@ -32,6 +35,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   req.requestTime = new Date().toISOString();
   next();
 });
+
+app.use('/api/v1/auth/', userRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
